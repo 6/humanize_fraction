@@ -28,7 +28,7 @@ class FractionToWords
   private
 
   def humanize_numerator
-    number = if numerator == 1 && !options[:always_spell_out]
+    number = if numerator == 1 && options[:shorthand]
       # 8 is the only(?) case where you want to prefix with `an` instead of `a`.
       first_digit(denominator) == 8 ? "an" : "a"
     else
@@ -42,7 +42,7 @@ class FractionToWords
     when 2
       "half"
     when 4
-      "quarter"
+      options[:quarter] ? "quarter" : "fourth"
     else
       denominator.localize(:en).to_rbnf_s("SpelloutRules", "spellout-ordinal")
     end
