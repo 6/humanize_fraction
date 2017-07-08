@@ -29,6 +29,7 @@ class FractionToWords
 
   def humanize_numerator
     number = if numerator == 1 && !options[:always_spell_out]
+      # 8 is the only(?) case where you want to prefix with `an` instead of `a`.
       first_digit(denominator) == 8 ? "an" : "a"
     else
       numerator.humanize

@@ -15,6 +15,9 @@ describe FractionToWords do
       [0, 8, "zero eighths"],
       [1, 8, "an eighth"],
       [2, 8, "two eighths"],
+      [2, 500, "two five hundredths"],
+      [1, 523, "a five hundred twenty-third"],
+      [2, 523, "two five hundred twenty-thirds"],
     ].each do |numerator, denominator, expected_output|
       context "#{numerator}/#{denominator}" do
         subject { described_class.new(numerator, denominator).to_s }
