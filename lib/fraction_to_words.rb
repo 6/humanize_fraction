@@ -5,9 +5,9 @@ require "twitter_cldr"
 require "fraction_to_words/version"
 
 class FractionToWords
-  attr_reader :numerator, :denominator, :options
+  attr_reader :numerator, :denominator, :quarter, :shorthand
 
-  def initialize(numerator, denominator, options = {})
+  def initialize(numerator:, denominator:, shorthand: false, quarter: false)
     [numerator, denominator].each do |number|
       if !number.is_a?(Integer)
         raise ArgumentError, "Expected Integer but got #{number.class.name}"
@@ -15,8 +15,11 @@ class FractionToWords
     end
     @numerator = numerator
     @denominator = denominator
-    @options = options
+    @shorthand = shorthand
+    @quarter = quarter
   end
+  alias_method :quarter?, :quarter
+  alias_method :shorthand?, :shorthand
 
   def to_s
     words = []
@@ -28,7 +31,7 @@ class FractionToWords
   private
 
   def humanize_numerator
-    number = if numerator == 1 && options[:shorthand]
+    number = if numerator == 1 && shorthand?
       # 8 is the only(?) case where you want to prefix with `an` instead of `a`.
       first_digit(denominator) == 8 ? "an" : "a"
     else
@@ -42,12 +45,12 @@ class FractionToWords
     when 2
       "half"
     when 4
-      options[:quarter] ? "quarter" : "fourth"
+      quarter? ? "quarter" : "fourth"
     else
       denominator.localize(:en).to_rbnf_s("SpelloutRules", "spellout-ordinal")
     end
     # Handle case of `a millionth`, `a thousandth`, etc.
-    if options[:shorthand] && denominator >= 100 &&
+    if shorthand? && denominator >= 100 &&
       first_digit(denominator) == 1 && remaining_digits_zeros?(denominator)
       number.sub!(/\Aone\s/, "")
     end
