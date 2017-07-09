@@ -1,8 +1,8 @@
 module HumanizeFraction
   class Humanizer
     # From: https://github.com/thechrisoshow/fractional/blob/master/lib/fractional.rb
-    SINGLE_FRACTION = /^\s*(\-?\d+)\/(\-?\d+)\s*$/
-    MIXED_FRACTION = /^\s*(\-?\d*)\s+(\d+)\/(\d+)\s*$/
+    SINGLE_FRACTION = /\A\s*(\-?\d+)\/(\-?\d+)\s*\z/
+    MIXED_FRACTION = /\A\s*(\-?\d*)\s+(\d+)\/(\d+)\s*\z/
 
     # Numbers that should be prefixed with `a` instead of `an` even though they
     # start with a vowel.
@@ -102,7 +102,7 @@ module HumanizeFraction
     end
 
     def indefinite_article(humanized_number)
-      if humanized_number.match(/^[aeiou]/) &&
+      if humanized_number.match(/\A[aeiou]/) &&
         !NUMBERS_STARTING_WITH_SILENT_VOWEL.include?(humanized_number)
         "an"
       else
