@@ -4,6 +4,12 @@ module HumanizeFraction
     SINGLE_FRACTION = /^\s*(\-?\d+)\/(\-?\d+)\s*$/
     MIXED_FRACTION = /^\s*(\-?\d*)\s+(\d+)\/(\d+)\s*$/
 
+    # Numbers that should be prefixed with `a` instead of `an` even though they
+    # start with a vowel.
+    NUMBERS_STARTING_WITH_SILENT_VOWEL = [
+      "one",
+    ]
+
     attr_reader :numerator, :denominator, :integer_part, :quarter, :shorthand
 
     def initialize(numerator:, denominator:, integer_part: nil, shorthand: false, quarter: false)
@@ -25,10 +31,11 @@ module HumanizeFraction
     alias_method :shorthand?, :shorthand
 
     def to_s
+      humanized_denominator = humanize_denominator
       words = []
       words << humanize_integer_part if !integer_part.nil?
-      words << humanize_numerator
-      words << humanize_denominator
+      words << humanize_numerator(humanized_denominator)
+      words << humanized_denominator
       words.join(" ")
     end
 
@@ -53,10 +60,10 @@ module HumanizeFraction
       "#{integer_part.humanize} and"
     end
 
-    def humanize_numerator
+    def humanize_numerator(humanized_denominator)
       number = if numerator == 1 && shorthand?
-        # 8 is the only(?) case where you want to prefix with `an` instead of `a`.
-        first_digit(denominator) == 8 ? "an" : "a"
+        first_number = humanized_denominator.split(" ").first
+        indefinite_article(first_number)
       else
         numerator.humanize
       end
@@ -92,6 +99,15 @@ module HumanizeFraction
       numbers = number.to_s.split("")
       numbers.shift
       numbers.size > 0 && numbers.map(&:to_i).all?(&:zero?)
+    end
+
+    def indefinite_article(humanized_number)
+      if humanized_number.match(/^[aeiou]/) &&
+        !NUMBERS_STARTING_WITH_SILENT_VOWEL.include?(humanized_number)
+        "an"
+      else
+        "a"
+      end
     end
 
     def self.string_is_mixed_fraction?(value)
