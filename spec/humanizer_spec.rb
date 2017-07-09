@@ -24,6 +24,7 @@ describe HumanizeFraction::Humanizer do
         [5, 10_001, "five ten thousand firsts"],
         [1, 1_000_000, "one one millionth"],
         [1, 1000000000000000000000000000, "one one octillionth"],
+        [-1, 8, "negative one eighths"],
       ].each do |numerator, denominator, expected_output|
         context "#{numerator}/#{denominator}" do
           subject { described_class.new(numerator: numerator, denominator: denominator).to_s(shorthand: false, quarter: false) }
@@ -48,6 +49,7 @@ describe HumanizeFraction::Humanizer do
         [1, 11_000, "an eleven thousandth"],
         [1, 1_000_000, "a millionth"],
         [1, 1000000000000000000000000000, "an octillionth"],
+        [-1, 8, "negative one eighths"],
       ].each do |numerator, denominator, expected_output|
         context "#{numerator}/#{denominator}" do
           subject { described_class.new(numerator: numerator, denominator: denominator).to_s(shorthand: true) }
@@ -106,6 +108,7 @@ describe HumanizeFraction::Humanizer do
       [
         ["0 3/4", {quarter: true, shorthand: true}, "zero and three quarters"],
         ["1 1/2", {quarter: true, shorthand: true}, "one and a half"],
+        ["-1 1/2", {quarter: true, shorthand: true}, "negative one and a half"],
       ].each do |string, options, expected_output|
         context string do
           subject { described_class.from_string(string).to_s(options) }
@@ -122,6 +125,7 @@ describe HumanizeFraction::Humanizer do
         ["3/12", "three twelfths"],
         ["3 / 12", "three twelfths"],
         ["3  /    12  ", "three twelfths"],
+        ["-3/12", "negative three twelfths"],
       ].each do |string, expected_output|
         context string do
           subject { described_class.from_string(string).to_s }
@@ -138,6 +142,7 @@ describe HumanizeFraction::Humanizer do
         "1/a",
         "a/1",
         "1/2a2",
+        "1 -1/2",
         123,
         nil,
         "",

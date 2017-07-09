@@ -7,10 +7,10 @@ Rubygem to convert fraction to words, like 1 ⅓ => one and a third. Examples:
 #=> "one eighth"
 "1/8".humanize_fraction(shorthand: true)
 #=> "an eighth"
-"2 3/4".humanize_fraction
-#=> "two and three fourths"
-"2 3/4".humanize_fraction(quarter: true)
-#=> "two and three quarters"
+"-2 3/4".humanize_fraction
+#=> "negative two and three fourths"
+"-2 3/4".humanize_fraction(quarter: true)
+#=> "negative two and three quarters"
 "1/1000000".humanize_fraction(shorthand: true)
 #=> "a millionth"
 "222/333".humanize_fraction
