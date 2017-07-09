@@ -5,14 +5,18 @@ require "twitter_cldr"
 require "fraction_to_words/version"
 
 class FractionToWords
-  attr_reader :numerator, :denominator, :quarter, :shorthand
+  attr_reader :numerator, :denominator, :integer_part, :quarter, :shorthand
 
-  def initialize(numerator:, denominator:, shorthand: false, quarter: false)
+  def initialize(numerator:, denominator:, integer_part: nil, shorthand: false, quarter: false)
     [numerator, denominator].each do |number|
       if !number.is_a?(Integer)
-        raise ArgumentError, "Expected Integer but got #{number.class.name}"
+        raise ArgumentError, "Expected Integers for numerator/denominator but got #{number.class.name}"
       end
     end
+    if !integer_part.nil? && !integer_part.is_a?(Integer)
+      raise ArgumentError, "Expected Integer or NilClass for integer_part but got #{integer_part.class.name}"
+    end
+    @integer_part = integer_part
     @numerator = numerator
     @denominator = denominator
     @shorthand = shorthand
@@ -23,12 +27,17 @@ class FractionToWords
 
   def to_s
     words = []
+    words << humanize_integer_part if !integer_part.nil?
     words << humanize_numerator
     words << humanize_denominator
     words.join(" ")
   end
 
   private
+
+  def humanize_integer_part
+    "#{integer_part.humanize} and"
+  end
 
   def humanize_numerator
     number = if numerator == 1 && shorthand?
