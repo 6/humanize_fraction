@@ -36,10 +36,10 @@ fraction = HumanizeFraction::Humanizer.new(
 )
 
 fraction.to_s
-# => "two and one fourth"
+#=> "two and one fourth"
 
 fraction.to_s(shorthand: true, quarter: true)
-# => "two and a quarter"
+#=> "two and a quarter"
 ```
 
 ## Installation
