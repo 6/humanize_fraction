@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "activesupport", ">= 4"
   spec.add_runtime_dependency "humanize", "~> 1.4"
   spec.add_runtime_dependency "numbers_and_words", "~> 0.11"
+  spec.add_runtime_dependency "sig", "~> 1.0"
 
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "rake", "~> 10.0"
