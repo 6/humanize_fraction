@@ -16,6 +16,7 @@ describe HumanizeFraction::Humanizer do
         [1, 523, "one five hundred twenty-third"],
         [2, 523, "two five hundred twenty-thirds"],
         [1, 10, "one tenth"],
+        [1, 11, "one eleventh"],
         [1, 100, "one one hundredth"],
         [1, 1_000, "one one thousandth"],
         [1, 10_000, "one ten thousandth"],
@@ -36,10 +37,14 @@ describe HumanizeFraction::Humanizer do
         [1, 2, "a half"],
         [1, 3, "a third"],
         [1, 8, "an eighth"],
+        [1, 11, "an eleventh"],
         [1, 10, "a tenth"],
+        [1, 80, "an eightieth"],
         [1, 100, "a hundredth"],
+        [1, 111, "a one hundred eleventh"],
         [1, 1_000, "a thousandth"],
         [1, 10_000, "a ten thousandth"],
+        [1, 11_000, "an eleven thousandth"],
         [1, 1_000_000, "a millionth"],
       ].each do |numerator, denominator, expected_output|
         context "#{numerator}/#{denominator}" do
