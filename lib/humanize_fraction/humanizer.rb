@@ -1,9 +1,5 @@
 module HumanizeFraction
   class Humanizer
-    # From: https://github.com/thechrisoshow/fractional/blob/master/lib/fractional.rb
-    SINGLE_FRACTION = /\A\s*(\-?\d+)\/(\-?\d+)\s*\z/
-    MIXED_FRACTION = /\A\s*(\-?\d*)\s+(\d+)\/(\d+)\s*\z/
-
     # Numbers that should be prefixed with `a` instead of `an` even though they
     # start with a vowel.
     NUMBERS_STARTING_WITH_SILENT_VOWEL = [
@@ -36,18 +32,8 @@ module HumanizeFraction
     end
 
     def self.from_string(string, options = {})
-      if !string.is_a?(String)
-        raise ArgumentError, "Expected String but got #{string.class.name}"
-      end
-      if string_is_mixed_fraction?(string)
-        whole, numerator, denominator = string.scan(MIXED_FRACTION).flatten.map(&:to_i)
-        new(whole_part: whole, numerator: numerator, denominator: denominator, **options)
-      elsif string_is_single_fraction?(string)
-        numerator, denominator = string.split("/").map(&:to_i)
-        new(numerator: numerator, denominator: denominator, **options)
-      else
-        raise ArgumentError, "Unable to extract fraction from string #{string}"
-      end
+      parser = FractionStringParser.new(string)
+      new(**parser.fraction_components, **options)
     end
 
     private
@@ -99,14 +85,6 @@ module HumanizeFraction
       else
         "a"
       end
-    end
-
-    def self.string_is_mixed_fraction?(value)
-      value&.match(MIXED_FRACTION)
-    end
-
-    def self.string_is_single_fraction?(value)
-      value&.match(SINGLE_FRACTION)
     end
   end
 end
