@@ -7,11 +7,8 @@ module HumanizeFraction
     MIXED_FRACTION = /\A\s*(\-?\d*)\s+(\d+)\/(\d+)\s*\z/
 
     attr_reader :string
-
+    sig String,
     def initialize(string)
-      if !string.is_a?(String)
-        raise ArgumentError, "Expected String but got #{string.class.name}"
-      end
       @string = string
     end
 

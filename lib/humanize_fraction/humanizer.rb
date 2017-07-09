@@ -8,15 +8,8 @@ module HumanizeFraction
 
     attr_reader :numerator, :denominator, :whole_part
 
+    sig [{numerator: Integer, denominator: Integer, whole_part: [NilClass, Integer]}],
     def initialize(numerator:, denominator:, whole_part: nil)
-      [numerator, denominator].each do |number|
-        if !number.is_a?(Integer)
-          raise ArgumentError, "Expected Integers for numerator/denominator but got #{number.class.name}"
-        end
-      end
-      if !whole_part.nil? && !whole_part.is_a?(Integer)
-        raise ArgumentError, "Expected Integer or NilClass for whole_part but got #{whole_part.class.name}"
-      end
       @whole_part = whole_part
       @numerator = numerator
       @denominator = denominator

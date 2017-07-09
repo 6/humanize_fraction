@@ -26,4 +26,10 @@ describe CoreExtensions::String::HumanizeFraction do
       expect { "1/3".humanize_fraction(invalid: "ok") }.to raise_error(ArgumentError)
     end
   end
+
+  context "with invalid fraction" do
+    it "raises ArgumentError" do
+      expect { "1/aa".humanize_fraction }.to raise_error(ArgumentError)
+    end
+  end
 end
