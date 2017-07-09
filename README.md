@@ -1,4 +1,4 @@
-# humanize_fraction [![CircleCI](https://circleci.com/gh/6/humanize_fraction.svg?style=svg)](https://circleci.com/gh/6/humanize_fraction)
+# humanize_fraction [![CircleCI](https://circleci.com/gh/6/humanize_fraction.svg?style=svg)](https://circleci.com/gh/6/humanize_fraction) [![Gem Version](https://badge.fury.io/rb/humanize_fraction.svg)](https://rubygems.org/gems/humanize_fraction)
 
 Rubygem to convert fraction to words, like 1 ⅓ => one and a third. Examples:
 
