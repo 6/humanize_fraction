@@ -17,6 +17,26 @@ Rubygem to convert fraction to words, like 1 ⅓ => one and a third. Examples:
 #=> "two hundred and twenty-two three hundred thirty-thirds"
 ```
 
+If you don't want to monkey patch `String`, you can also use the Humanizer class directly:
+
+```ruby
+# From a string:
+fraction = HumanizeFraction::Humanizer.from_string("2 1/4")
+
+# From integers:
+fraction = HumanizeFraction::Humanizer.new(
+  whole_part: 2,
+  numerator: 1,
+  denominator: 4,
+)
+
+fraction.to_s
+# => "two and one fourth"
+
+fraction.to_s(shorthand: true, quarter: true)
+# => "two and a quarter"
+```
+
 ## Installation
 
 Add this line to your application's Gemfile and execute `bundle` to install:
