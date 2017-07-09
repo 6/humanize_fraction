@@ -92,6 +92,7 @@ describe HumanizeFraction::Humanizer do
         ["0 3/4", "zero and three fourths"],
         ["1 1/4", "one and one fourth"],
         ["201 3/12", "two hundred and one and three twelfths"],
+        ["1  1 / 4", "one and one fourth"],
       ].each do |string, expected_output|
         context string do
           subject { described_class.from_string(string).to_s }
@@ -119,6 +120,8 @@ describe HumanizeFraction::Humanizer do
         ["3/4", "three fourths"],
         ["1/4", "one fourth"],
         ["3/12", "three twelfths"],
+        ["3 / 12", "three twelfths"],
+        ["3  /    12  ", "three twelfths"],
       ].each do |string, expected_output|
         context string do
           subject { described_class.from_string(string).to_s }

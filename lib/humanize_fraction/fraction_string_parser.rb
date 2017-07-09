@@ -3,8 +3,8 @@
 module HumanizeFraction
   class FractionStringParser
     # From: https://github.com/thechrisoshow/fractional/blob/master/lib/fractional.rb
-    SINGLE_FRACTION = /\A\s*(\-?\d+)\/(\-?\d+)\s*\z/
-    MIXED_FRACTION = /\A\s*(\-?\d*)\s+(\d+)\/(\d+)\s*\z/
+    SINGLE_FRACTION = /\A\s*(\-?\d+)\s*\/\s*(\-?\d+)\s*\z/
+    MIXED_FRACTION = /\A\s*(\-?\d*)\s+(\d+)\s*\/\s*(\d+)\s*\z/
 
     attr_reader :string
     sig String,
