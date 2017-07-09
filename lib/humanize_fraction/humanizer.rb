@@ -24,6 +24,7 @@ module HumanizeFraction
       words.join(" ")
     end
 
+    sig_self [String, Hash],
     def self.from_string(string, options = {})
       parser = FractionStringParser.new(string)
       new(**parser.fraction_components, **options)

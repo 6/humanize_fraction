@@ -93,7 +93,7 @@ describe HumanizeFraction::Humanizer do
         ["1 1/4", "one and one fourth"],
         ["201 3/12", "two hundred and one and three twelfths"],
       ].each do |string, expected_output|
-        context "#{string}" do
+        context string do
           subject { described_class.from_string(string).to_s }
 
           it { is_expected.to eq(expected_output) }
@@ -106,7 +106,7 @@ describe HumanizeFraction::Humanizer do
         ["0 3/4", {quarter: true, shorthand: true}, "zero and three quarters"],
         ["1 1/2", {quarter: true, shorthand: true}, "one and a half"],
       ].each do |string, options, expected_output|
-        context "#{string}" do
+        context string do
           subject { described_class.from_string(string).to_s(options) }
 
           it { is_expected.to eq(expected_output) }
@@ -120,10 +120,29 @@ describe HumanizeFraction::Humanizer do
         ["1/4", "one fourth"],
         ["3/12", "three twelfths"],
       ].each do |string, expected_output|
-        context "#{string}" do
+        context string do
           subject { described_class.from_string(string).to_s }
 
           it { is_expected.to eq(expected_output) }
+        end
+      end
+    end
+
+    context "invalid fractions" do
+      [
+        "not a fraction",
+        "1/0",
+        "1/a",
+        "a/1",
+        "1/2a2",
+        123,
+        nil,
+        "",
+      ].each do |string|
+        context string do
+          it "raises ArgumentError" do
+            expect { HumanizeFraction::Humanizer.from_string(string) }.to raise_error(ArgumentError)
+          end
         end
       end
     end

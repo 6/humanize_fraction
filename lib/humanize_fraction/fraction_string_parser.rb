@@ -28,12 +28,16 @@ module HumanizeFraction
 
     def mixed_fraction_components
       whole_part, numerator, denominator = string.scan(MIXED_FRACTION).flatten.map(&:to_i)
-      {whole_part: whole_part, numerator: numerator, denominator: denominator}
+      components = {whole_part: whole_part, numerator: numerator, denominator: denominator}
+      validate_fraction_components(components)
+      components
     end
 
     def single_fraction_components
       numerator, denominator = string.split("/").map(&:to_i)
-      {whole_part: nil, numerator: numerator, denominator: denominator}
+      components = {whole_part: nil, numerator: numerator, denominator: denominator}
+      validate_fraction_components(components)
+      components
     end
 
     def string_is_mixed_fraction?
@@ -42,6 +46,12 @@ module HumanizeFraction
 
     def string_is_single_fraction?
       string.match(SINGLE_FRACTION)
+    end
+
+    def validate_fraction_components(components)
+      if components[:denominator].zero?
+        raise ArgumentError, "Unable to parse fraction with zero denominator"
+      end
     end
   end
 end
