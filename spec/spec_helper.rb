@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "fraction_to_words"
+require "humanize_fraction"
 require "rspec/its"
 
 RSpec.configure do |config|

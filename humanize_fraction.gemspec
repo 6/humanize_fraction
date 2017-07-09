@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "fraction_to_words/version"
+require "humanize_fraction/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "fraction_to_words"
-  spec.version       = FractionToWords::VERSION
+  spec.name          = "humanize_fraction"
+  spec.version       = HumanizeFraction::VERSION
   spec.authors       = ["Peter Graham"]
   spec.email         = ["peterghm@gmail.com"]
 
   spec.summary       = %q{Convert fractions to words, 3/5 => three fifths.}
   spec.description   = %q{Convert fractions to words, such as 3/5 to three fifths.}
-  spec.homepage      = "https://github.com/6/fraction_to_words"
+  spec.homepage      = "https://github.com/6/humanize_fraction"
   spec.license       = "MIT"
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})

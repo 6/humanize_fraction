@@ -1,8 +1,4 @@
-describe FractionToWords do
-  it "has a version number" do
-    expect(FractionToWords::VERSION).not_to be nil
-  end
-
+describe HumanizeFraction::Humanizer do
   describe "#to_s" do
     context "with options {shorthand: false, quarter: false}" do
       [

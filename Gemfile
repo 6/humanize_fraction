@@ -1,4 +1,4 @@
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in fraction_to_words.gemspec
+# Specify your gem's dependencies in humanize_fraction.gemspec
 gemspec
