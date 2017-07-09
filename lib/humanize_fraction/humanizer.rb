@@ -80,8 +80,7 @@ module HumanizeFraction
         denominator.localize(:en).to_rbnf_s("SpelloutRules", "spellout-ordinal")
       end
       # Handle case of `a millionth`, `a thousandth`, etc.
-      if shorthand? && denominator >= 100 &&
-        first_digit(denominator) == 1 && remaining_digits_zeros?(denominator)
+      if shorthand? && denominator >= 100 && one_followed_by_zeros?(denominator)
         number.sub!(/\Aone\s/, "")
       end
       if numerator != 1
@@ -90,15 +89,11 @@ module HumanizeFraction
       number
     end
 
-    def first_digit(number)
-      number.to_s.split("").first.to_i
-    end
-
-    # Checks if everything after first digit are zeros.
-    def remaining_digits_zeros?(number)
-      numbers = number.to_s.split("")
-      numbers.shift
-      numbers.size > 0 && numbers.map(&:to_i).all?(&:zero?)
+    # Checks number is a 1 followed by only zeros, e.g. 10 or 10000000
+    def one_followed_by_zeros?(number)
+      digits = number.to_s.split("")
+      first_digit = digits.shift
+      first_digit.to_i == 1 && digits.size > 0 && digits.map(&:to_i).all?(&:zero?)
     end
 
     def indefinite_article(humanized_number)
