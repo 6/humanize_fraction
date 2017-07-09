@@ -73,7 +73,7 @@ module HumanizeFraction
       when 4
         quarter ? "quarter" : "fourth"
       else
-        ordinalize(denominator)
+        denominator.localize(:en).to_rbnf_s("SpelloutRules", "spellout-ordinal")
       end
       # Handle case of `a millionth`, `a thousandth`, etc.
       if shorthand && denominator >= 100 && one_followed_by_zeros?(denominator)
@@ -99,17 +99,6 @@ module HumanizeFraction
       else
         "a"
       end
-    end
-
-    def ordinalize(number)
-      humanized_number = number.humanize
-      if humanized_number.end_with?("ty") # eighty => eightie(th)
-        humanized_number.sub!(/ty\z/, "tie")
-      elsif humanized_number.end_with?("lve") # twelve => twelf(th)
-        humanized_number.sub!(/lve\z/, "lf")
-      end
-      ordinal = ActiveSupport::Inflector.ordinal(number)
-      humanized_number + ordinal
     end
 
     def self.string_is_mixed_fraction?(value)
