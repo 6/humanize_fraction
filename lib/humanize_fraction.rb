@@ -1,5 +1,6 @@
 require "active_support/inflector"
 require "humanize"
+# TODO: figure out how to use this library without the monkey patching it does.
 require "numbers_and_words"
 
 require "humanize_fraction/humanizer"
