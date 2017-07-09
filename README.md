@@ -15,6 +15,8 @@ Rubygem to convert fraction to words, like 1 ⅓ => one and a third. Examples:
 #=> "a millionth"
 "222/333".humanize_fraction
 #=> "two hundred and twenty-two three hundred thirty-thirds"
+"1/1000000000000000000000000000".humanize_fraction(shorthand: true)
+#=> "an octillionth"
 ```
 
 If you don't want to monkey patch `String`, you can also use the Humanizer class directly:

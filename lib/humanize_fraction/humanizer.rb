@@ -73,7 +73,7 @@ module HumanizeFraction
       when 4
         quarter ? "quarter" : "fourth"
       else
-        denominator.localize(:en).to_rbnf_s("SpelloutRules", "spellout-ordinal")
+        I18n.with_locale(:en) { denominator.to_words(ordinal: true) }
       end
       # Handle case of `a millionth`, `a thousandth`, etc.
       if shorthand && denominator >= 100 && one_followed_by_zeros?(denominator)
