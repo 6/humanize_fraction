@@ -69,14 +69,14 @@ describe HumanizeFraction::Humanizer do
       end
     end
 
-    context "with integer_part" do
+    context "with whole_part" do
       [
         [0, 3, 4, "zero and three fourths"],
         [1, 1, 4, "one and one fourth"],
         [220, 220, 230, "two hundred and twenty and two hundred and twenty two hundred thirtieths"],
-      ].each do |integer_part, numerator, denominator, expected_output|
-        context "#{integer_part} #{numerator}/#{denominator}" do
-          subject { described_class.new(integer_part: integer_part, numerator: numerator, denominator: denominator).to_s }
+      ].each do |whole_part, numerator, denominator, expected_output|
+        context "#{whole_part} #{numerator}/#{denominator}" do
+          subject { described_class.new(whole_part: whole_part, numerator: numerator, denominator: denominator).to_s }
 
           it { is_expected.to eq(expected_output) }
         end

@@ -10,18 +10,18 @@ module HumanizeFraction
       "one",
     ]
 
-    attr_reader :numerator, :denominator, :integer_part, :quarter, :shorthand
+    attr_reader :numerator, :denominator, :whole_part, :quarter, :shorthand
 
-    def initialize(numerator:, denominator:, integer_part: nil, shorthand: false, quarter: false)
+    def initialize(numerator:, denominator:, whole_part: nil, shorthand: false, quarter: false)
       [numerator, denominator].each do |number|
         if !number.is_a?(Integer)
           raise ArgumentError, "Expected Integers for numerator/denominator but got #{number.class.name}"
         end
       end
-      if !integer_part.nil? && !integer_part.is_a?(Integer)
-        raise ArgumentError, "Expected Integer or NilClass for integer_part but got #{integer_part.class.name}"
+      if !whole_part.nil? && !whole_part.is_a?(Integer)
+        raise ArgumentError, "Expected Integer or NilClass for whole_part but got #{whole_part.class.name}"
       end
-      @integer_part = integer_part
+      @whole_part = whole_part
       @numerator = numerator
       @denominator = denominator
       @shorthand = shorthand
@@ -33,7 +33,7 @@ module HumanizeFraction
     def to_s
       humanized_denominator = humanize_denominator
       words = []
-      words << humanize_integer_part if !integer_part.nil?
+      words << humanize_whole_part if !whole_part.nil?
       words << humanize_numerator(humanized_denominator)
       words << humanized_denominator
       words.join(" ")
@@ -45,7 +45,7 @@ module HumanizeFraction
       end
       if string_is_mixed_fraction?(string)
         whole, numerator, denominator = string.scan(MIXED_FRACTION).flatten.map(&:to_i)
-        new(integer_part: whole, numerator: numerator, denominator: denominator, **options)
+        new(whole_part: whole, numerator: numerator, denominator: denominator, **options)
       elsif string_is_single_fraction?(string)
         numerator, denominator = string.split("/").map(&:to_i)
         new(numerator: numerator, denominator: denominator, **options)
@@ -56,8 +56,8 @@ module HumanizeFraction
 
     private
 
-    def humanize_integer_part
-      "#{integer_part.humanize} and"
+    def humanize_whole_part
+      "#{whole_part.humanize} and"
     end
 
     def humanize_numerator(humanized_denominator)
