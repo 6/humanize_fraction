@@ -2,6 +2,7 @@ require "active_support/inflector"
 require "humanize"
 require "twitter_cldr"
 
+require "core_extensions/string/humanize_fraction"
 require "fraction_to_words/version"
 
 class FractionToWords
