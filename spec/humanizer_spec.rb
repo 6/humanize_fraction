@@ -25,7 +25,7 @@ describe HumanizeFraction::Humanizer do
         [1, 1_000_000, "one one millionth"],
       ].each do |numerator, denominator, expected_output|
         context "#{numerator}/#{denominator}" do
-          subject { described_class.new(numerator: numerator, denominator: denominator, shorthand: false, quarter: false).to_s }
+          subject { described_class.new(numerator: numerator, denominator: denominator).to_s(shorthand: false, quarter: false) }
 
           it { is_expected.to eq(expected_output) }
         end
@@ -48,7 +48,7 @@ describe HumanizeFraction::Humanizer do
         [1, 1_000_000, "a millionth"],
       ].each do |numerator, denominator, expected_output|
         context "#{numerator}/#{denominator}" do
-          subject { described_class.new(numerator: numerator, denominator: denominator, shorthand: true).to_s }
+          subject { described_class.new(numerator: numerator, denominator: denominator).to_s(shorthand: true) }
 
           it { is_expected.to eq(expected_output) }
         end
@@ -62,7 +62,7 @@ describe HumanizeFraction::Humanizer do
         [3, 4, "three quarters"],
       ].each do |numerator, denominator, expected_output|
         context "#{numerator}/#{denominator}" do
-          subject { described_class.new(numerator: numerator, denominator: denominator, quarter: true).to_s }
+          subject { described_class.new(numerator: numerator, denominator: denominator).to_s(quarter: true) }
 
           it { is_expected.to eq(expected_output) }
         end
@@ -105,7 +105,7 @@ describe HumanizeFraction::Humanizer do
         ["1 1/2", {quarter: true, shorthand: true}, "one and a half"],
       ].each do |string, options, expected_output|
         context "#{string}" do
-          subject { described_class.from_string(string, options).to_s }
+          subject { described_class.from_string(string).to_s(options) }
 
           it { is_expected.to eq(expected_output) }
         end

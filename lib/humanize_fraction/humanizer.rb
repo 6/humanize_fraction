@@ -10,9 +10,9 @@ module HumanizeFraction
       "one",
     ]
 
-    attr_reader :numerator, :denominator, :whole_part, :quarter, :shorthand
+    attr_reader :numerator, :denominator, :whole_part
 
-    def initialize(numerator:, denominator:, whole_part: nil, shorthand: false, quarter: false)
+    def initialize(numerator:, denominator:, whole_part: nil)
       [numerator, denominator].each do |number|
         if !number.is_a?(Integer)
           raise ArgumentError, "Expected Integers for numerator/denominator but got #{number.class.name}"
@@ -24,17 +24,13 @@ module HumanizeFraction
       @whole_part = whole_part
       @numerator = numerator
       @denominator = denominator
-      @shorthand = shorthand
-      @quarter = quarter
     end
-    alias_method :quarter?, :quarter
-    alias_method :shorthand?, :shorthand
 
-    def to_s
-      humanized_denominator = humanize_denominator
+    def to_s(shorthand: false, quarter: false)
+      humanized_denominator = humanize_denominator(shorthand: shorthand, quarter: quarter)
       words = []
       words << humanize_whole_part if !whole_part.nil?
-      words << humanize_numerator(humanized_denominator)
+      words << humanize_numerator(humanized_denominator, shorthand: shorthand)
       words << humanized_denominator
       words.join(" ")
     end
@@ -60,8 +56,8 @@ module HumanizeFraction
       "#{whole_part.humanize} and"
     end
 
-    def humanize_numerator(humanized_denominator)
-      number = if numerator == 1 && shorthand?
+    def humanize_numerator(humanized_denominator, shorthand:)
+      number = if numerator == 1 && shorthand
         first_number = humanized_denominator.split(" ").first
         indefinite_article(first_number)
       else
@@ -70,17 +66,17 @@ module HumanizeFraction
       number
     end
 
-    def humanize_denominator
+    def humanize_denominator(shorthand:, quarter:)
       number = case denominator
       when 2
         "half"
       when 4
-        quarter? ? "quarter" : "fourth"
+        quarter ? "quarter" : "fourth"
       else
         denominator.localize(:en).to_rbnf_s("SpelloutRules", "spellout-ordinal")
       end
       # Handle case of `a millionth`, `a thousandth`, etc.
-      if shorthand? && denominator >= 100 && one_followed_by_zeros?(denominator)
+      if shorthand && denominator >= 100 && one_followed_by_zeros?(denominator)
         number.sub!(/\Aone\s/, "")
       end
       if numerator != 1
