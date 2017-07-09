@@ -23,6 +23,7 @@ describe HumanizeFraction::Humanizer do
         [5, 10_000, "five ten thousandths"],
         [5, 10_001, "five ten thousand firsts"],
         [1, 1_000_000, "one one millionth"],
+        [1, 1000000000000000000000000000, "one one octillionth"],
       ].each do |numerator, denominator, expected_output|
         context "#{numerator}/#{denominator}" do
           subject { described_class.new(numerator: numerator, denominator: denominator).to_s(shorthand: false, quarter: false) }
@@ -46,6 +47,7 @@ describe HumanizeFraction::Humanizer do
         [1, 10_000, "a ten thousandth"],
         [1, 11_000, "an eleven thousandth"],
         [1, 1_000_000, "a millionth"],
+        [1, 1000000000000000000000000000, "an octillionth"],
       ].each do |numerator, denominator, expected_output|
         context "#{numerator}/#{denominator}" do
           subject { described_class.new(numerator: numerator, denominator: denominator).to_s(shorthand: true) }
