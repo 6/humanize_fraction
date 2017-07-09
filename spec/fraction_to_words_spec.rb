@@ -82,4 +82,47 @@ describe FractionToWords do
       end
     end
   end
+
+  describe ".from_string" do
+    context "mixed fraction, no options" do
+      [
+        ["0 3/4", "zero and three fourths"],
+        ["1 1/4", "one and one fourth"],
+        ["201 3/12", "two hundred and one and three twelfths"],
+      ].each do |string, expected_output|
+        context "#{string}" do
+          subject { described_class.from_string(string).to_s }
+
+          it { is_expected.to eq(expected_output) }
+        end
+      end
+    end
+
+    context "mixed fraction with options"  do
+      [
+        ["0 3/4", {quarter: true, shorthand: true}, "zero and three quarters"],
+        ["1 1/2", {quarter: true, shorthand: true}, "one and a half"],
+      ].each do |string, options, expected_output|
+        context "#{string}" do
+          subject { described_class.from_string(string, options).to_s }
+
+          it { is_expected.to eq(expected_output) }
+        end
+      end
+    end
+
+    context "single fraction" do
+      [
+        ["3/4", "three fourths"],
+        ["1/4", "one fourth"],
+        ["3/12", "three twelfths"],
+      ].each do |string, expected_output|
+        context "#{string}" do
+          subject { described_class.from_string(string).to_s }
+
+          it { is_expected.to eq(expected_output) }
+        end
+      end
+    end
+  end
 end

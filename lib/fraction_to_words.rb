@@ -5,6 +5,10 @@ require "twitter_cldr"
 require "fraction_to_words/version"
 
 class FractionToWords
+  # From: https://github.com/thechrisoshow/fractional/blob/master/lib/fractional.rb
+  SINGLE_FRACTION = /^\s*(\-?\d+)\/(\-?\d+)\s*$/
+  MIXED_FRACTION = /^\s*(\-?\d*)\s+(\d+)\/(\d+)\s*$/
+
   attr_reader :numerator, :denominator, :integer_part, :quarter, :shorthand
 
   def initialize(numerator:, denominator:, integer_part: nil, shorthand: false, quarter: false)
@@ -31,6 +35,21 @@ class FractionToWords
     words << humanize_numerator
     words << humanize_denominator
     words.join(" ")
+  end
+
+  def self.from_string(string, options = {})
+    if !string.is_a?(String)
+      raise ArgumentError, "Expected String but got #{string.class.name}"
+    end
+    if string_is_mixed_fraction?(string)
+      whole, numerator, denominator = string.scan(MIXED_FRACTION).flatten.map(&:to_i)
+      new(integer_part: whole, numerator: numerator, denominator: denominator, **options)
+    elsif string_is_single_fraction?(string)
+      numerator, denominator = string.split("/").map(&:to_i)
+      new(numerator: numerator, denominator: denominator, **options)
+    else
+      raise ArgumentError, "Unable to extract fraction from string #{string}"
+    end
   end
 
   private
@@ -78,5 +97,13 @@ class FractionToWords
     numbers = number.to_s.split("")
     numbers.shift
     numbers.size > 0 && numbers.map(&:to_i).all?(&:zero?)
+  end
+
+  def self.string_is_mixed_fraction?(value)
+    value&.match(MIXED_FRACTION)
+  end
+
+  def self.string_is_single_fraction?(value)
+    value&.match(SINGLE_FRACTION)
   end
 end
